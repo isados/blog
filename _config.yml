@@ -100,6 +100,9 @@ plugins:
 paginate: 15
 paginate_path: /page:num/
 
+# /:categories/:title:output_ext
+permalink: none
+
 remote_theme: jekyll/minima
 
 titles_from_headings:
