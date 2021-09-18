@@ -520,6 +520,6 @@ canvas { filter: invert(100%); }
 
 li .post-meta-description { color: rgba(255, 255, 255, 0.69) !important; }
 
-.post-content p, .post-content li { font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif !important; }
+.post-content p, .post-content li { font-size: 17px; }
 
 /*# sourceMappingURL=style.css.map */

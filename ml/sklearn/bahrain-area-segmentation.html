@@ -1,0 +1,4590 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Foodie’s Guide to Finding a Home in Bahrain | isa’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Foodie’s Guide to Finding a Home in Bahrain" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="By clustering neighborhoods based on popular venues surrounding them" />
+<meta property="og:description" content="By clustering neighborhoods based on popular venues surrounding them" />
+<link rel="canonical" href="https://isados.github.io/blog/ml/sklearn/bahrain-area-segmentation.html" />
+<meta property="og:url" content="https://isados.github.io/blog/ml/sklearn/bahrain-area-segmentation.html" />
+<meta property="og:site_name" content="isa’s blog" />
+<meta property="og:image" content="https://isados.github.io/blog/images/bahrain-segmentation/bahrain-restaurant.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://isados.github.io/blog/ml/sklearn/bahrain-area-segmentation.html","@type":"BlogPosting","headline":"Foodie’s Guide to Finding a Home in Bahrain","dateModified":"2021-09-10T00:00:00-05:00","datePublished":"2021-09-10T00:00:00-05:00","image":"https://isados.github.io/blog/images/bahrain-segmentation/bahrain-restaurant.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://isados.github.io/blog/ml/sklearn/bahrain-area-segmentation.html"},"description":"By clustering neighborhoods based on popular venues surrounding them","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://isados.github.io/blog/feed.xml" title="isa's blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">isa&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Foodie&#39;s Guide to Finding a Home in Bahrain</h1><p class="page-description">By clustering neighborhoods based on popular venues surrounding them</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-10T00:00:00-05:00" itemprop="datePublished">
+        Sep 10, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      30 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#ml">ml</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#sklearn">sklearn</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/isados/blog/tree/master/_notebooks/2021-09-10-bahrain-area-segmentation.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/isados/blog/master?filepath=_notebooks%2F2021-09-10-bahrain-area-segmentation.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/isados/blog/blob/master/_notebooks/2021-09-10-bahrain-area-segmentation.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-10-bahrain-area-segmentation.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I am a foodie looking for a place stay in Bahrain. I want to study certain areas in Bahrain and the kind of restaurants that surround them.</p>
+<p>I think that a lot of people, not just the youth could benefit from this, since the issue isn't just finding a decent place to stay in Bahrain, but finding one that best serves their culinary interests perhaps.</p>
+<p>I mean there are obviously much better factors to look at besides food. However for this problem I want to stick to what I can gain from <strong>Foursquare</strong> with a free license. Thus, by neatly categorizing areas based on their attributes such as frequency of coffee shops, closeness to malls etc; I can can make a better guesstimate of where they might stay.</p>
+<p>Foursquare allows us to grab information on venues surrounding a given location, and therefore we will look into the most frequent kind of venues surrounding a given area, and cluster areas them on that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Issues">Issues<a class="anchor-link" href="#Issues"> </a></h1><ul>
+<li>apikeys</li>
+<li>md outputs</li>
+<li>website styles (related note)</li>
+<li></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So let's get started!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<!-- ## Methodology
+
+Since our first and ultimate goal revolves around working with data which are vastly numeric in type such as latitude and longitude values for coordinates, I will leverage the [Pandas](https://pandas.pydata.org/) library to store, load and process this data. We gather the areas in a pandas dataframe for easy processing, and attempt to collect coordinates that can be processed efficiently using such a library.
+In order to get the most trusted list of places in Bahrain, we will refer to this [Wikipedia page](https://en.wikipedia.org/wiki/Category:Populated_places_in_Bahrain) as a source to begin with. 
+
+We can extract pieces of text from websites using a popular webscraper called [Beautiful Soup](https://beautiful-soup-4.readthedocs.io/en/latest/). We can use the filter the text from the site for areas in Bahrain. After doing this, we form our first dataframe with that data called `bh_data`.
+
+For futher consideration, we will need the ask questions such as, "does it cover all areas mentioning in the Wikipedia Page?" or "Are there ambigious and confusing elements to those locations like repeated points or missing locations?". Upon ansering these, we can then proceed further.
+
+After we are confident that we have the names of all major areas in Bahrain, we have to geocode them; a process that converts them from a string to latitude & longitude values marking their location on a map. We can use popular geocoding APIs such as [Open Street Map](https://www.openstreetmap.org/) and [Map Quest](https://www.mapquest.com/). We use both of them, since they're the least difficult to get a free account with, and to ensure we don't have any discrepancies or if the name of a particular location doesn't returns an valid result. After geocoding, we store the cooridinates into our existing dataframe `bh_data` as seen below. Our process of data collection has now ended.
+
+| Index |    Area   |  Latitude |  Longitude  |
+|:-----:|:---------:|:---------:|:-----------:|
+|   0   | A'ali     | 26.154454 | 50.527364   |
+|   1   | Abu Baham | 26.205737 | 50.541668   |
+|   2   | Abu Saiba | 30.325299 | 48.266157   |
+|   3   | Al Garrya | 20.639623 | -100.477387 |
+|   4   | Al Hajar  | 26.225405 | 50.59013    |
+
+For the sake of visual analysis, we must utilize mapping libraries like [Folium](https://python-visualization.github.io/folium/) to plot our areas as points on a map, so we can better visualize our findings. This will aid us in our analysis as we can better synthesize our results.
+
+For the second part, we will look at [Foursquare](https://foursquare.com/) to get us the surrounding food places within 500m of the area's center (an arbitrary radius to avoid collision with venues present in other areas).
+
+Foursquare is a service that aids us in obtaining location-based data that details venues, reviews and users' who have reviewed the said venues.
+For our use-case, we will look only at the list of food places within each area in Bahrain and their food category.
+
+For the third part of our project, our business problem relies on segmenting areas based on the most common type of food places within the area. This gives us an idea about the type of area it is from a culinary point-of-view, and allowing us to make judgments on whether the food is ideal to our taste or not. We also want to factor in the total number of food places within an area since some places in Bahrain may not be ideal to live in if they don't even have enough places to eat.
+ -->
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Scrap-Bahrain-Cities/Town-Data-from-Wikipedia">Scrap Bahrain Cities/Town Data from Wikipedia<a class="anchor-link" href="#Scrap-Bahrain-Cities/Town-Data-from-Wikipedia"> </a></h2><p>I need to scrap data from <strong>Wikipedia</strong> to lookup towns and cities in Bahrain. We're going to use the popular webscraper <strong>Beautiful Soup</strong> to do that.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://en.wikipedia.org/wiki/Category:Populated_places_in_Bahrain&#39;</span>
+<span class="n">html_doc</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="c1"># Get HTML Doc</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_doc</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span> <span class="c1"># Parse using bs4</span>
+<span class="n">blocks</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;mw-category-group&quot;</span><span class="p">})[</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="n">bh_data</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">:</span>
+    <span class="n">places</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">place</span> <span class="ow">in</span> <span class="n">places</span><span class="p">:</span>
+        <span class="n">bh_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">place</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">bh_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bh_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">])</span>
+<span class="n">remove_places</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rifa and Southern Region&#39;</span><span class="p">,</span> <span class="s1">&#39;Northern City&#39;</span><span class="p">]</span> <span class="c1"># Exclude these places</span>
+<span class="n">bh_data</span> <span class="o">=</span> <span class="n">bh_data</span><span class="p">[</span><span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">item</span> <span class="p">:</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">remove_places</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bh_data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Abu Baham</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Abu Saiba</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Al Garrya</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Al Hajar</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>So there are about 82 areas in Bahrain to study.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Retrieving-Coordinates-via-a-Geocoder">Retrieving Coordinates via a Geocoder<a class="anchor-link" href="#Retrieving-Coordinates-via-a-Geocoder"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After that, we need to geocode them; convert them from a simple address to <em>latitude &amp; longitude</em> values.</p>
+<p>Popular geocoders like OpenStreetMap &amp; Map Quest will be used.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s2">&quot;API-KEY-XXXXXXXXXXX&quot;</span>
+<span class="kn">import</span> <span class="nn">geocoder</span>
+
+<span class="n">lats</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">lngs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">]:</span>
+    <span class="n">geocoder_type</span> <span class="o">=</span> <span class="s1">&#39;osm&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">geocoder</span><span class="o">.</span><span class="n">osm</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2">, Bahrain&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">apikey</span><span class="p">)</span>
+        <span class="n">geodata</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">json</span>
+        <span class="n">lats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geodata</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">geocoder_type</span> <span class="o">=</span> <span class="s1">&#39;MAPQUEST&#39;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">geocoder</span><span class="o">.</span><span class="n">mapquest</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2">, Bahrain&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">apikey</span><span class="p">)</span>
+        <span class="n">geodata</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">json</span>
+        <span class="n">lats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geodata</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">])</span>
+    <span class="n">lngs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geodata</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">city</span><span class="p">,</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">geocoder_type</span><span class="p">)</span>
+<span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lats</span>
+<span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lngs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These are the first few of them that were geocoded!</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+      <td>26.154454</td>
+      <td>50.527364</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Abu Baham</td>
+      <td>26.205737</td>
+      <td>50.541668</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Abu Saiba</td>
+      <td>30.325299</td>
+      <td>48.266157</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Al Garrya</td>
+      <td>26.232690</td>
+      <td>50.578110</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Al Hajar</td>
+      <td>26.225405</td>
+      <td>50.590138</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Visualization-on-a-Map">Visualization on a Map<a class="anchor-link" href="#Visualization-on-a-Map"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will now use <strong>Folium</strong> to visualize the map of Bahrain along with each area as points on the map</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span> <span class="o">=</span> <span class="mf">26.0766404</span><span class="p">,</span> <span class="mf">50.334118</span>
+
+<span class="n">map_bahrain</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">],</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># add markers to map</span>
+<span class="k">for</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">,</span> <span class="n">city</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">],</span> <span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">],</span>
+                                           <span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">]):</span>
+    
+    <span class="n">label</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Popup</span><span class="p">(</span><span class="n">city</span><span class="p">,</span> <span class="n">parse_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">folium</span><span class="o">.</span><span class="n">CircleMarker</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">],</span>
+        <span class="n">radius</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">popup</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+        <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;#3186cc&#39;</span><span class="p">,</span>
+        <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">parse_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">map_bahrain</span><span class="p">)</span>  
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">HTML</span>    
+<span class="n">render</span><span class="p">(</span><span class="n">map_bahrain</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<iframe src="/blog/assets/bahrain-segmentation/1.html" width="100%" height="500px"></iframe>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Foursquare:-Exploring-Areas-for-Food-Places">Foursquare: Exploring Areas for Food Places<a class="anchor-link" href="#Foursquare:-Exploring-Areas-for-Food-Places"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Futhermore, we'll leverage the Foursquare API to gather the most common types of restaurants associated with an area within 500m of its center. We'll then look at various food places and restaurants and extract their types for further analysis.</p>
+<p>Note: To filter only restaurants &amp; food places, we will use the specific "Food" category ID : <code>4d4b7105d754a06374d81259</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">food_categoryId</span> <span class="o">=</span> <span class="s2">&quot;4d4b7105d754a06374d81259&quot;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Alright, let's look at <strong>all food places</strong> surrouding the first area within a <strong>500m</strong> radius</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>... which happens to be A'ali</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">radius</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">lat</span><span class="p">,</span> <span class="n">lng</span> <span class="o">=</span> <span class="n">bh_data</span><span class="p">[[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;Longitude&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://api.foursquare.com/v2/venues/search?&amp;client_id=</span><span class="si">{}</span><span class="s1">&amp;client_secret=</span><span class="si">{}</span><span class="s1">&amp;v=</span><span class="si">{}</span><span class="s1">&amp;ll=</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">&amp;categoryId=</span><span class="si">{}</span><span class="s1">&amp;radius=</span><span class="si">{}</span><span class="s1">&amp;limit=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">CLIENT_ID</span><span class="p">,</span> <span class="n">CLIENT_SECRET</span><span class="p">,</span> <span class="n">VERSION</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">,</span> <span class="n">food_categoryId</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">LIMIT</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looking at the first food place in the <code>results</code> json, we get this output:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;venues&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;id&#39;: &#39;4e99da8f8231878c15393aa2&#39;,
+ &#39;name&#39;: &#39;Costa Coffee&#39;,
+ &#39;location&#39;: {&#39;lat&#39;: 26.157464331750106,
+  &#39;lng&#39;: 50.52587327276449,
+  &#39;labeledLatLngs&#39;: [{&#39;label&#39;: &#39;display&#39;,
+    &#39;lat&#39;: 26.157464331750106,
+    &#39;lng&#39;: 50.52587327276449}],
+  &#39;distance&#39;: 366,
+  &#39;cc&#39;: &#39;BH&#39;,
+  &#39;city&#39;: &#39;Madīnat ‘Īsá&#39;,
+  &#39;state&#39;: &#39;al Muḩāfaz̧ah Al Janūbīyah&#39;,
+  &#39;country&#39;: &#39;البحرين&#39;,
+  &#39;formattedAddress&#39;: [&#39;Madīnat ‘Īsá&#39;, &#39;البحرين&#39;]},
+ &#39;categories&#39;: [{&#39;id&#39;: &#39;4bf58dd8d48988d1e0931735&#39;,
+   &#39;name&#39;: &#39;Coffee Shop&#39;,
+   &#39;pluralName&#39;: &#39;Coffee Shops&#39;,
+   &#39;shortName&#39;: &#39;Coffee Shop&#39;,
+   &#39;icon&#39;: {&#39;prefix&#39;: &#39;https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_&#39;,
+    &#39;suffix&#39;: &#39;.png&#39;},
+   &#39;primary&#39;: True}],
+ &#39;referralId&#39;: &#39;v-1631999729&#39;,
+ &#39;hasPerk&#39;: False}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>Thie first venue is Costa Coffee, and has a category: <code>Coffee Shop</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So now let's build a helpful function to <strong>extract the category</strong> of each food place. We'll use the same area as an example.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_category_type</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">categories_list</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">categories_list</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;venue.categories&#39;</span><span class="p">]</span>
+        
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">categories_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">categories_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+    
+<span class="n">venues</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;venues&#39;</span><span class="p">]</span>
+    
+<span class="n">nearby_food</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">venues</span><span class="p">)</span> <span class="c1"># flatten JSON</span>
+
+<span class="c1"># filter columns</span>
+<span class="n">filtered_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;categories&#39;</span><span class="p">,</span> <span class="s1">&#39;location.lat&#39;</span><span class="p">,</span> <span class="s1">&#39;location.lng&#39;</span><span class="p">]</span>
+<span class="n">nearby_food</span> <span class="o">=</span> <span class="n">nearby_food</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">filtered_columns</span><span class="p">]</span>
+
+<span class="c1"># filter the category for each row</span>
+<span class="n">nearby_food</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nearby_food</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_category_type</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># clean columns</span>
+<span class="n">nearby_food</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">nearby_food</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+<span class="n">nearby_food</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>categories</th>
+      <th>lat</th>
+      <th>lng</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Costa Coffee</td>
+      <td>Coffee Shop</td>
+      <td>26.157464</td>
+      <td>50.525873</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Chilis Aali</td>
+      <td>Diner</td>
+      <td>26.152996</td>
+      <td>50.526268</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Loop Cafe</td>
+      <td>Café</td>
+      <td>26.156017</td>
+      <td>50.531527</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Hospital Resturant (كافيتيريا المستشفى)</td>
+      <td>Restaurant</td>
+      <td>26.153012</td>
+      <td>50.526232</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>كفتيريا المستشفى</td>
+      <td>Restaurant</td>
+      <td>26.153455</td>
+      <td>50.528375</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>These are some of them, in total it returns <strong>19</strong> food places around <strong>A'ali</strong>.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exploring-All-Areas">Exploring All Areas<a class="anchor-link" href="#Exploring-All-Areas"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>We've got still got 82 places to explore, so let's create a function to do this task much faster.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">getNearbyFoods</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">latitudes</span><span class="p">,</span> <span class="n">longitudes</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">food_categoryId</span> <span class="o">=</span> <span class="s2">&quot;4d4b7105d754a06374d81259&quot;</span>
+    <span class="n">foods_list</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">latitudes</span><span class="p">,</span> <span class="n">longitudes</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+            
+        <span class="c1"># create the API request URL</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://api.foursquare.com/v2/venues/search?&amp;client_id=</span><span class="si">{}</span><span class="s1">&amp;client_secret=</span><span class="si">{}</span><span class="s1">&amp;v=</span><span class="si">{}</span><span class="s1">&amp;ll=</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">&amp;categoryId=</span><span class="si">{}</span><span class="s1">&amp;radius=</span><span class="si">{}</span><span class="s1">&amp;limit=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">CLIENT_ID</span><span class="p">,</span> 
+            <span class="n">CLIENT_SECRET</span><span class="p">,</span> 
+            <span class="n">VERSION</span><span class="p">,</span> 
+            <span class="n">lat</span><span class="p">,</span> 
+            <span class="n">lng</span><span class="p">,</span> 
+            <span class="n">food_categoryId</span><span class="p">,</span>
+            <span class="n">radius</span><span class="p">,</span> 
+            <span class="n">LIMIT</span><span class="p">)</span>
+            
+        <span class="c1"># make the GET request</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s1">&#39;venues&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span>
+        
+        <span class="n">venue_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># return only relevant information for each nearby food place</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="n">vname</span><span class="p">,</span> <span class="n">vlat</span><span class="p">,</span> <span class="n">vlng</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;lat&#39;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">][</span><span class="s1">&#39;lng&#39;</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">vcategory</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                <span class="n">venue_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> 
+                                    <span class="n">lat</span><span class="p">,</span> 
+                                    <span class="n">lng</span><span class="p">,</span>
+                                    <span class="n">vname</span><span class="p">,</span> 
+                                    <span class="n">vlat</span><span class="p">,</span>
+                                    <span class="n">vlng</span><span class="p">,</span>
+                                    <span class="n">vcategory</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">foods_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">venue_list</span><span class="p">)</span>
+    <span class="n">nearby_foods</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">item</span> <span class="k">for</span> <span class="n">venue_list</span> <span class="ow">in</span> <span class="n">foods_list</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">venue_list</span><span class="p">])</span>
+    <span class="n">nearby_foods</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;Area Latitude&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;Area Longitude&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;Venue&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;Venue Latitude&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;Venue Longitude&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;Venue Category&#39;</span><span class="p">]</span>
+    
+    <span class="k">return</span><span class="p">(</span><span class="n">nearby_foods</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We run the above function on each area and create a new dataframe called <code>bh_foods</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bh_food</span> <span class="o">=</span> <span class="n">getNearbyFoods</span><span class="p">(</span><span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">],</span> <span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">],</span> 
+                                   <span class="n">bh_data</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">],</span> <span class="mi">500</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bh_food</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>Area Latitude</th>
+      <th>Area Longitude</th>
+      <th>Venue</th>
+      <th>Venue Latitude</th>
+      <th>Venue Longitude</th>
+      <th>Venue Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+      <td>26.154454</td>
+      <td>50.527364</td>
+      <td>Costa Coffee</td>
+      <td>26.157464</td>
+      <td>50.525873</td>
+      <td>Coffee Shop</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A'ali</td>
+      <td>26.154454</td>
+      <td>50.527364</td>
+      <td>Chilis Aali</td>
+      <td>26.152996</td>
+      <td>50.526268</td>
+      <td>Diner</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A'ali</td>
+      <td>26.154454</td>
+      <td>50.527364</td>
+      <td>Loop Cafe</td>
+      <td>26.156017</td>
+      <td>50.531527</td>
+      <td>Café</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A'ali</td>
+      <td>26.154454</td>
+      <td>50.527364</td>
+      <td>كفتيريا المستشفى</td>
+      <td>26.153455</td>
+      <td>50.528375</td>
+      <td>Restaurant</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A'ali</td>
+      <td>26.154454</td>
+      <td>50.527364</td>
+      <td>Hospital Resturant (كافيتيريا المستشفى)</td>
+      <td>26.153012</td>
+      <td>50.526232</td>
+      <td>Restaurant</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>This gives us a whopping 1962 food places</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can study the count for each area...</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bh_food</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area Latitude</th>
+      <th>Area Longitude</th>
+      <th>Venue</th>
+      <th>Venue Latitude</th>
+      <th>Venue Longitude</th>
+      <th>Venue Category</th>
+    </tr>
+    <tr>
+      <th>Area</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A'ali</th>
+      <td>19</td>
+      <td>19</td>
+      <td>19</td>
+      <td>19</td>
+      <td>19</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>Abu Baham</th>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>Al Daih</th>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>Al Dair</th>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>Al Garrya</th>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We've trimmed out the remaining areas for brevity's sake.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>What's interesting to notice from this data, is that there are 88 unique categories for food.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>Some of them include: Coffee Shop, Diner, Café, Restaurant, Breakfast Spot and so on.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Most-Common-Food-Places">Most Common Food Places<a class="anchor-link" href="#Most-Common-Food-Places"> </a></h2><p>Our solution relies on segmenting areas based on the most common type of food places within that area. This gives us an idea about the kind of area it is from a culinary point-of-view, and allowing us to make judgments on whether the food is ideal to our taste or not. We also want to factor in the total number of food places within an area since some places in Bahrain may not be ideal to live in if they don't even have enough places to eat.</p>
+<p>Using the dataframe <code>bh_food</code>, we form a one-hot encoding of the <code>Venue Category</code> field that produces new columns for each category. Each record in this table corresponds to a certain venue and a <code>1</code> is placed in the category field for that area. The only other field that is retained is the area name. We will call this <code>bh_onehot</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bh_onehot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">bh_food</span><span class="p">[[</span><span class="s1">&#39;Venue Category&#39;</span><span class="p">]],</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">prefix_sep</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="c1"># add neighborhood column back to dataframe</span>
+<span class="n">bh_onehot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">bh_food</span><span class="p">[[</span><span class="s1">&#39;Area&#39;</span><span class="p">]],</span> <span class="n">bh_onehot</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+
+<span class="n">bh_onehot</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>Afghan Restaurant</th>
+      <th>African Restaurant</th>
+      <th>American Restaurant</th>
+      <th>Arepa Restaurant</th>
+      <th>Asian Restaurant</th>
+      <th>BBQ Joint</th>
+      <th>Bagel Shop</th>
+      <th>Bakery</th>
+      <th>Bistro</th>
+      <th>Breakfast Spot</th>
+      <th>Bubble Tea Shop</th>
+      <th>Buffet</th>
+      <th>Burger Joint</th>
+      <th>Burrito Place</th>
+      <th>Cafeteria</th>
+      <th>Café</th>
+      <th>Chaat Place</th>
+      <th>Chinese Restaurant</th>
+      <th>Coffee Shop</th>
+      <th>College Lab</th>
+      <th>Comfort Food Restaurant</th>
+      <th>Creperie</th>
+      <th>Cuban Restaurant</th>
+      <th>Cupcake Shop</th>
+      <th>Deli / Bodega</th>
+      <th>Dessert Shop</th>
+      <th>Diner</th>
+      <th>Doner Restaurant</th>
+      <th>Donut Shop</th>
+      <th>Dumpling Restaurant</th>
+      <th>Eastern European Restaurant</th>
+      <th>Egyptian Restaurant</th>
+      <th>Falafel Restaurant</th>
+      <th>Farmers Market</th>
+      <th>Fast Food Restaurant</th>
+      <th>Filipino Restaurant</th>
+      <th>Fish &amp; Chips Shop</th>
+      <th>Food</th>
+      <th>Food Court</th>
+      <th>Food Truck</th>
+      <th>French Restaurant</th>
+      <th>Fried Chicken Joint</th>
+      <th>Frozen Yogurt Shop</th>
+      <th>Gas Station</th>
+      <th>Gastropub</th>
+      <th>Greek Restaurant</th>
+      <th>Halal Restaurant</th>
+      <th>Hookah Bar</th>
+      <th>Hot Dog Joint</th>
+      <th>Ice Cream Shop</th>
+      <th>Indian Restaurant</th>
+      <th>Iraqi Restaurant</th>
+      <th>Italian Restaurant</th>
+      <th>Japanese Restaurant</th>
+      <th>Juice Bar</th>
+      <th>Kebab Restaurant</th>
+      <th>Korean Restaurant</th>
+      <th>Lebanese Restaurant</th>
+      <th>Mediterranean Restaurant</th>
+      <th>Mexican Restaurant</th>
+      <th>Middle Eastern Restaurant</th>
+      <th>Moroccan Restaurant</th>
+      <th>Movie Theater</th>
+      <th>New American Restaurant</th>
+      <th>Noodle House</th>
+      <th>Pastry Shop</th>
+      <th>Persian Restaurant</th>
+      <th>Pie Shop</th>
+      <th>Pizza Place</th>
+      <th>Portuguese Restaurant</th>
+      <th>Restaurant</th>
+      <th>Salad Place</th>
+      <th>Sandwich Place</th>
+      <th>Seafood Restaurant</th>
+      <th>Shawarma Place</th>
+      <th>Snack Place</th>
+      <th>South Indian Restaurant</th>
+      <th>Steakhouse</th>
+      <th>Supermarket</th>
+      <th>Sushi Restaurant</th>
+      <th>Tea Room</th>
+      <th>Thai Restaurant</th>
+      <th>Theme Restaurant</th>
+      <th>Tibetan Restaurant</th>
+      <th>Turkish Restaurant</th>
+      <th>Vegetarian / Vegan Restaurant</th>
+      <th>Vietnamese Restaurant</th>
+      <th>Wings Joint</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A'ali</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A'ali</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A'ali</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A'ali</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's group rows by area and by taking the mean of the frequency of occurrence of each category, along with the number of food places surrouding it (<code>NumberOfFoodPlaces</code>).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looking at the number of food places is significant considering that some areas have fewer restaurants, and could be a valid factor to segment, if a "foodie" is looking for a place to stay.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bh_grouped</span> <span class="o">=</span> <span class="n">bh_onehot</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Area&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">bh_grouped</span><span class="p">[</span><span class="s1">&#39;NumberOfFoodPlaces&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bh_onehot</span><span class="p">[[</span><span class="s1">&#39;Area&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">bh_grouped</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>Afghan Restaurant</th>
+      <th>African Restaurant</th>
+      <th>American Restaurant</th>
+      <th>Arepa Restaurant</th>
+      <th>Asian Restaurant</th>
+      <th>BBQ Joint</th>
+      <th>Bagel Shop</th>
+      <th>Bakery</th>
+      <th>Bistro</th>
+      <th>Breakfast Spot</th>
+      <th>Bubble Tea Shop</th>
+      <th>Buffet</th>
+      <th>Burger Joint</th>
+      <th>Burrito Place</th>
+      <th>Cafeteria</th>
+      <th>Café</th>
+      <th>Chaat Place</th>
+      <th>Chinese Restaurant</th>
+      <th>Coffee Shop</th>
+      <th>College Lab</th>
+      <th>Comfort Food Restaurant</th>
+      <th>Creperie</th>
+      <th>Cuban Restaurant</th>
+      <th>Cupcake Shop</th>
+      <th>Deli / Bodega</th>
+      <th>Dessert Shop</th>
+      <th>Diner</th>
+      <th>Doner Restaurant</th>
+      <th>Donut Shop</th>
+      <th>Dumpling Restaurant</th>
+      <th>Eastern European Restaurant</th>
+      <th>Egyptian Restaurant</th>
+      <th>Falafel Restaurant</th>
+      <th>Farmers Market</th>
+      <th>Fast Food Restaurant</th>
+      <th>Filipino Restaurant</th>
+      <th>Fish &amp; Chips Shop</th>
+      <th>Food</th>
+      <th>Food Court</th>
+      <th>Food Truck</th>
+      <th>French Restaurant</th>
+      <th>Fried Chicken Joint</th>
+      <th>Frozen Yogurt Shop</th>
+      <th>Gas Station</th>
+      <th>Gastropub</th>
+      <th>Greek Restaurant</th>
+      <th>Halal Restaurant</th>
+      <th>Hookah Bar</th>
+      <th>Hot Dog Joint</th>
+      <th>Ice Cream Shop</th>
+      <th>Indian Restaurant</th>
+      <th>Iraqi Restaurant</th>
+      <th>Italian Restaurant</th>
+      <th>Japanese Restaurant</th>
+      <th>Juice Bar</th>
+      <th>Kebab Restaurant</th>
+      <th>Korean Restaurant</th>
+      <th>Lebanese Restaurant</th>
+      <th>Mediterranean Restaurant</th>
+      <th>Mexican Restaurant</th>
+      <th>Middle Eastern Restaurant</th>
+      <th>Moroccan Restaurant</th>
+      <th>Movie Theater</th>
+      <th>New American Restaurant</th>
+      <th>Noodle House</th>
+      <th>Pastry Shop</th>
+      <th>Persian Restaurant</th>
+      <th>Pie Shop</th>
+      <th>Pizza Place</th>
+      <th>Portuguese Restaurant</th>
+      <th>Restaurant</th>
+      <th>Salad Place</th>
+      <th>Sandwich Place</th>
+      <th>Seafood Restaurant</th>
+      <th>Shawarma Place</th>
+      <th>Snack Place</th>
+      <th>South Indian Restaurant</th>
+      <th>Steakhouse</th>
+      <th>Supermarket</th>
+      <th>Sushi Restaurant</th>
+      <th>Tea Room</th>
+      <th>Thai Restaurant</th>
+      <th>Theme Restaurant</th>
+      <th>Tibetan Restaurant</th>
+      <th>Turkish Restaurant</th>
+      <th>Vegetarian / Vegan Restaurant</th>
+      <th>Vietnamese Restaurant</th>
+      <th>Wings Joint</th>
+      <th>NumberOfFoodPlaces</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.052632</td>
+      <td>0.0</td>
+      <td>0.052632</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.210526</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.105263</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.105263</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.052632</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.052632</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.052632</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.052632</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.052632</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.157895</td>
+      <td>0.0</td>
+      <td>0.052632</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Abu Baham</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.111111</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>0.111111</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.222222</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Al Daih</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.140000</td>
+      <td>0.0</td>
+      <td>0.100000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.04</td>
+      <td>0.0</td>
+      <td>0.020000</td>
+      <td>0.060000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.06</td>
+      <td>0.040000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.160000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.060000</td>
+      <td>0.0</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.04</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.06</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Al Dair</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.555556</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.111111</td>
+      <td>0.00</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.111111</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Al Garrya</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.120000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.020000</td>
+      <td>0.060000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.060000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.040000</td>
+      <td>0.06</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.04</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.1</td>
+      <td>0.02</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.020000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.180000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.02</td>
+      <td>0.02</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's call this this <code>bh_grouped</code>. Now that we have this processed information, we can analyze this data more clearly by reordering it so that only the 10 most common type of food places for an area are retained.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">return_most_common_venues</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">num_top_venues</span><span class="p">):</span>
+    <span class="n">row_categories</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">row_categories_sorted</span> <span class="o">=</span> <span class="n">row_categories</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">row_categories_sorted</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">num_top_venues</span><span class="p">]</span>
+
+<span class="n">num_top_venues</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">indicators</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;st&#39;</span><span class="p">,</span> <span class="s1">&#39;nd&#39;</span><span class="p">,</span> <span class="s1">&#39;rd&#39;</span><span class="p">]</span>
+
+<span class="c1"># create columns according to number of top venues</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">,</span> <span class="s1">&#39;NumberOfFoodPlaces&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_top_venues</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1"> Most Common Food Place&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">indicators</span><span class="p">[</span><span class="n">ind</span><span class="p">]))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">th Most Common Food Place&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># create a new dataframe</span>
+<span class="n">foods_sorted</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">foods_sorted</span><span class="p">[[</span><span class="s1">&#39;Area&#39;</span><span class="p">,</span><span class="s1">&#39;NumberOfFoodPlaces&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">bh_grouped</span><span class="p">[[</span><span class="s1">&#39;Area&#39;</span><span class="p">,</span><span class="s1">&#39;NumberOfFoodPlaces&#39;</span><span class="p">]]</span>
+
+<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">bh_grouped</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">foods_sorted</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="n">return_most_common_venues</span><span class="p">(</span><span class="n">bh_grouped</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:],</span> <span class="n">num_top_venues</span><span class="p">)</span>
+
+<span class="c1"># Get the count    </span>
+<span class="n">foods_sorted</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>NumberOfFoodPlaces</th>
+      <th>1st Most Common Food Place</th>
+      <th>2nd Most Common Food Place</th>
+      <th>3rd Most Common Food Place</th>
+      <th>4th Most Common Food Place</th>
+      <th>5th Most Common Food Place</th>
+      <th>6th Most Common Food Place</th>
+      <th>7th Most Common Food Place</th>
+      <th>8th Most Common Food Place</th>
+      <th>9th Most Common Food Place</th>
+      <th>10th Most Common Food Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+      <td>19</td>
+      <td>Café</td>
+      <td>Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Cupcake Shop</td>
+      <td>Breakfast Spot</td>
+      <td>Food</td>
+      <td>Sandwich Place</td>
+      <td>Falafel Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Bakery</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Abu Baham</td>
+      <td>9</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Cafeteria</td>
+      <td>Ice Cream Shop</td>
+      <td>Donut Shop</td>
+      <td>BBQ Joint</td>
+      <td>Restaurant</td>
+      <td>Fish &amp; Chips Shop</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Afghan Restaurant</td>
+      <td>New American Restaurant</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Al Daih</td>
+      <td>50</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Bakery</td>
+      <td>Breakfast Spot</td>
+      <td>Dessert Shop</td>
+      <td>Café</td>
+      <td>Restaurant</td>
+      <td>Turkish Restaurant</td>
+      <td>Burger Joint</td>
+      <td>Diner</td>
+      <td>Steakhouse</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Al Dair</td>
+      <td>9</td>
+      <td>Bakery</td>
+      <td>Restaurant</td>
+      <td>BBQ Joint</td>
+      <td>Italian Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Afghan Restaurant</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Al Garrya</td>
+      <td>50</td>
+      <td>Restaurant</td>
+      <td>Breakfast Spot</td>
+      <td>Indian Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Filipino Restaurant</td>
+      <td>Café</td>
+      <td>Fried Chicken Joint</td>
+      <td>Fast Food Restaurant</td>
+      <td>Diner</td>
+      <td>Middle Eastern Restaurant</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's call this table <code>foods_sorted</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Cluster-Areas">Cluster Areas<a class="anchor-link" href="#Cluster-Areas"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we are ready for further analysis and clustering. We will use the <code>bh_grouped</code> dataframe since it contains the necessary numerical values for machine learning.</p>
+<p>Our feature set is comprised of all the food categories (10 features).</p>
+<p>We are excluding the <code>NumberOfFoodPlaces</code> feature as input to the ML model, since our problem requires segmenting areas by the type of food available. This quantity is only relevant to us to finally decide whether to live in an area or not.</p>
+<p>A more concrete reason to exclude it, is the fact that there are all sorts of factors involved that we're <strong>neglecting</strong> due to lack of data, such as living costs, access to public transport etc.</p>
+<p>This is a foodie's guide to finding a place, and this venture shouldn't be bogged-down by the fact that there are sometimes fewer number of restaurants than one would expect.</p>
+<p>Our target value will be <strong>cluster labels</strong>.</p>
+<p>For our machine learning analysis, we will use the simplest clustering algorithm to separate the areas which is <strong>K-Means Clustering</strong>; an unsupervised machine learning approach to serve our purpose. We'll use the popular machine learning library Sci-Kit Learn to do that in python.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll run <em>k</em>-means to group the areas into 5 clusters. We pick this number for the sake of examination. We'll fit the model on the entire data to learn these clusters.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kclusters</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">bh_grouped_clustering</span> <span class="o">=</span> <span class="n">bh_grouped</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Area&#39;</span><span class="p">,</span><span class="s1">&#39;NumberOfFoodPlaces&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># run k-means clustering</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">kclusters</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">bh_grouped_clustering</span><span class="p">)</span>
+
+<span class="c1"># check cluster labels generated for each row in the dataframe</span>
+<span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 0, 0, 2, 0, 0, 0, 0, 1, 1], dtype=int32)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's create a new dataframe <code>bh_merged</code> that includes the cluster as well as the top 10 food places for each area.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">foods_sorted</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Cluster Labels&#39;</span><span class="p">,</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="c1"># Allows me to retry if the Cluster Labels column exists</span>
+    <span class="n">foods_sorted</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span>
+
+<span class="n">bh_merged</span> <span class="o">=</span> <span class="n">bh_data</span>
+
+<span class="c1"># merge bh_grouped with bh_data to add latitude/longitude for each neighborhood</span>
+<span class="n">bh_merged</span> <span class="o">=</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">foods_sorted</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Area&#39;</span><span class="p">)</span>
+<span class="n">bh_merged</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bh_merged</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bh_merged</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">bh_merged</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> <span class="c1"># check the last columns!</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Cluster Labels</th>
+      <th>NumberOfFoodPlaces</th>
+      <th>1st Most Common Food Place</th>
+      <th>2nd Most Common Food Place</th>
+      <th>3rd Most Common Food Place</th>
+      <th>4th Most Common Food Place</th>
+      <th>5th Most Common Food Place</th>
+      <th>6th Most Common Food Place</th>
+      <th>7th Most Common Food Place</th>
+      <th>8th Most Common Food Place</th>
+      <th>9th Most Common Food Place</th>
+      <th>10th Most Common Food Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+      <td>26.154454</td>
+      <td>50.527364</td>
+      <td>1</td>
+      <td>19.0</td>
+      <td>Café</td>
+      <td>Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Cupcake Shop</td>
+      <td>Breakfast Spot</td>
+      <td>Food</td>
+      <td>Sandwich Place</td>
+      <td>Falafel Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Bakery</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Abu Baham</td>
+      <td>26.205737</td>
+      <td>50.541668</td>
+      <td>0</td>
+      <td>9.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Cafeteria</td>
+      <td>Ice Cream Shop</td>
+      <td>Donut Shop</td>
+      <td>BBQ Joint</td>
+      <td>Restaurant</td>
+      <td>Fish &amp; Chips Shop</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Afghan Restaurant</td>
+      <td>New American Restaurant</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Al Garrya</td>
+      <td>26.232690</td>
+      <td>50.578110</td>
+      <td>0</td>
+      <td>50.0</td>
+      <td>Restaurant</td>
+      <td>Breakfast Spot</td>
+      <td>Indian Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Filipino Restaurant</td>
+      <td>Café</td>
+      <td>Fried Chicken Joint</td>
+      <td>Fast Food Restaurant</td>
+      <td>Diner</td>
+      <td>Middle Eastern Restaurant</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Al Hajar</td>
+      <td>26.225405</td>
+      <td>50.590138</td>
+      <td>0</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Filipino Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Asian Restaurant</td>
+      <td>Indian Restaurant</td>
+      <td>Pizza Place</td>
+      <td>BBQ Joint</td>
+      <td>Restaurant</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Al Kharijiya</td>
+      <td>26.160230</td>
+      <td>50.609140</td>
+      <td>0</td>
+      <td>16.0</td>
+      <td>Cafeteria</td>
+      <td>Asian Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Bakery</td>
+      <td>Wings Joint</td>
+      <td>Pizza Place</td>
+      <td>Falafel Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Café</td>
+      <td>Food Court</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, let's visualize the resulting clusters</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<iframe src="/blog/assets/bahrain-segmentation/2.html" width="100%" height="500px"></iframe>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Examine-Clusters-&amp;-Final-Conclusion">Examine Clusters &amp; Final Conclusion<a class="anchor-link" href="#Examine-Clusters-&amp;-Final-Conclusion"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we can examine &amp; determine the discriminating characteristics of each cluster.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Cluster-1">Cluster 1<a class="anchor-link" href="#Cluster-1"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster1</span> <span class="o">=</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bh_merged</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">columns</span><span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]]</span>
+<span class="n">cluster1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>NumberOfFoodPlaces</th>
+      <th>1st Most Common Food Place</th>
+      <th>2nd Most Common Food Place</th>
+      <th>3rd Most Common Food Place</th>
+      <th>4th Most Common Food Place</th>
+      <th>5th Most Common Food Place</th>
+      <th>6th Most Common Food Place</th>
+      <th>7th Most Common Food Place</th>
+      <th>8th Most Common Food Place</th>
+      <th>9th Most Common Food Place</th>
+      <th>10th Most Common Food Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Abu Baham</td>
+      <td>9.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Cafeteria</td>
+      <td>Ice Cream Shop</td>
+      <td>Donut Shop</td>
+      <td>BBQ Joint</td>
+      <td>Restaurant</td>
+      <td>Fish &amp; Chips Shop</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Afghan Restaurant</td>
+      <td>New American Restaurant</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Al Garrya</td>
+      <td>50.0</td>
+      <td>Restaurant</td>
+      <td>Breakfast Spot</td>
+      <td>Indian Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Filipino Restaurant</td>
+      <td>Café</td>
+      <td>Fried Chicken Joint</td>
+      <td>Fast Food Restaurant</td>
+      <td>Diner</td>
+      <td>Middle Eastern Restaurant</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Al Hajar</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Filipino Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Asian Restaurant</td>
+      <td>Indian Restaurant</td>
+      <td>Pizza Place</td>
+      <td>BBQ Joint</td>
+      <td>Restaurant</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Al Kharijiya</td>
+      <td>16.0</td>
+      <td>Cafeteria</td>
+      <td>Asian Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Bakery</td>
+      <td>Wings Joint</td>
+      <td>Pizza Place</td>
+      <td>Falafel Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Café</td>
+      <td>Food Court</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Arad</td>
+      <td>50.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Restaurant</td>
+      <td>Dessert Shop</td>
+      <td>Burger Joint</td>
+      <td>Café</td>
+      <td>Fast Food Restaurant</td>
+      <td>Diner</td>
+      <td>Ice Cream Shop</td>
+      <td>Bakery</td>
+      <td>Sandwich Place</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Budaiya</td>
+      <td>36.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Bakery</td>
+      <td>Cafeteria</td>
+      <td>Burger Joint</td>
+      <td>Seafood Restaurant</td>
+      <td>Tea Room</td>
+      <td>Café</td>
+      <td>Sandwich Place</td>
+      <td>Ice Cream Shop</td>
+      <td>Restaurant</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Jid Ali</td>
+      <td>48.0</td>
+      <td>Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Café</td>
+      <td>Italian Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Breakfast Spot</td>
+      <td>Dessert Shop</td>
+      <td>Pizza Place</td>
+      <td>Diner</td>
+      <td>Seafood Restaurant</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Bani Jamra</td>
+      <td>19.0</td>
+      <td>Breakfast Spot</td>
+      <td>Restaurant</td>
+      <td>Café</td>
+      <td>Cafeteria</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Vegetarian / Vegan Restaurant</td>
+      <td>Bakery</td>
+      <td>Snack Place</td>
+      <td>Indian Restaurant</td>
+      <td>Fast Food Restaurant</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Barbar</td>
+      <td>6.0</td>
+      <td>Pizza Place</td>
+      <td>BBQ Joint</td>
+      <td>Bakery</td>
+      <td>Sandwich Place</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Juice Bar</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Bu Quwah</td>
+      <td>12.0</td>
+      <td>Turkish Restaurant</td>
+      <td>Cafeteria</td>
+      <td>Food</td>
+      <td>Pizza Place</td>
+      <td>Asian Restaurant</td>
+      <td>Bakery</td>
+      <td>Restaurant</td>
+      <td>Falafel Restaurant</td>
+      <td>Seafood Restaurant</td>
+      <td>Coffee Shop</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Buri</td>
+      <td>22.0</td>
+      <td>Indian Restaurant</td>
+      <td>Bakery</td>
+      <td>Breakfast Spot</td>
+      <td>Restaurant</td>
+      <td>Food</td>
+      <td>Food Court</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Café</td>
+      <td>Burger Joint</td>
+      <td>Cafeteria</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Busaiteen</td>
+      <td>43.0</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+      <td>Burger Joint</td>
+      <td>Ice Cream Shop</td>
+      <td>Tea Room</td>
+      <td>Juice Bar</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Donut Shop</td>
+      <td>Restaurant</td>
+      <td>Dessert Shop</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Al Daih</td>
+      <td>50.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Bakery</td>
+      <td>Breakfast Spot</td>
+      <td>Dessert Shop</td>
+      <td>Café</td>
+      <td>Restaurant</td>
+      <td>Turkish Restaurant</td>
+      <td>Burger Joint</td>
+      <td>Diner</td>
+      <td>Steakhouse</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Diraz</td>
+      <td>16.0</td>
+      <td>Cafeteria</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Steakhouse</td>
+      <td>Snack Place</td>
+      <td>Vegetarian / Vegan Restaurant</td>
+      <td>Asian Restaurant</td>
+      <td>Indian Restaurant</td>
+      <td>Restaurant</td>
+      <td>Breakfast Spot</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>East Hidd City</td>
+      <td>47.0</td>
+      <td>Coffee Shop</td>
+      <td>Fried Chicken Joint</td>
+      <td>Pizza Place</td>
+      <td>Cafeteria</td>
+      <td>Café</td>
+      <td>Indian Restaurant</td>
+      <td>BBQ Joint</td>
+      <td>Ice Cream Shop</td>
+      <td>Bakery</td>
+      <td>Burrito Place</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Galali</td>
+      <td>50.0</td>
+      <td>Fast Food Restaurant</td>
+      <td>Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Sandwich Place</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Turkish Restaurant</td>
+      <td>Tea Room</td>
+      <td>Burger Joint</td>
+      <td>Italian Restaurant</td>
+      <td>Café</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Al Hidd</td>
+      <td>47.0</td>
+      <td>Coffee Shop</td>
+      <td>Fried Chicken Joint</td>
+      <td>Pizza Place</td>
+      <td>Cafeteria</td>
+      <td>Café</td>
+      <td>Indian Restaurant</td>
+      <td>BBQ Joint</td>
+      <td>Ice Cream Shop</td>
+      <td>Bakery</td>
+      <td>Burrito Place</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Halat Bu Maher</td>
+      <td>48.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Seafood Restaurant</td>
+      <td>Café</td>
+      <td>Sandwich Place</td>
+      <td>Cafeteria</td>
+      <td>Fast Food Restaurant</td>
+      <td>Indian Restaurant</td>
+      <td>Restaurant</td>
+      <td>Turkish Restaurant</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Halat Nuaim</td>
+      <td>12.0</td>
+      <td>Restaurant</td>
+      <td>Food Truck</td>
+      <td>Lebanese Restaurant</td>
+      <td>Indian Restaurant</td>
+      <td>Deli / Bodega</td>
+      <td>Bakery</td>
+      <td>Seafood Restaurant</td>
+      <td>Burger Joint</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>Hamad Town</td>
+      <td>7.0</td>
+      <td>Sandwich Place</td>
+      <td>Wings Joint</td>
+      <td>Bakery</td>
+      <td>Juice Bar</td>
+      <td>Vegetarian / Vegan Restaurant</td>
+      <td>Vietnamese Restaurant</td>
+      <td>Hookah Bar</td>
+      <td>Lebanese Restaurant</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Hillat Abdul Saleh</td>
+      <td>47.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Ice Cream Shop</td>
+      <td>Pizza Place</td>
+      <td>Juice Bar</td>
+      <td>Donut Shop</td>
+      <td>Café</td>
+      <td>Food Truck</td>
+      <td>Bakery</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>Jid Al-Haj</td>
+      <td>48.0</td>
+      <td>Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Café</td>
+      <td>Italian Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Breakfast Spot</td>
+      <td>Dessert Shop</td>
+      <td>Pizza Place</td>
+      <td>Diner</td>
+      <td>Seafood Restaurant</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Jidhafs</td>
+      <td>49.0</td>
+      <td>Bakery</td>
+      <td>Breakfast Spot</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Turkish Restaurant</td>
+      <td>Dessert Shop</td>
+      <td>American Restaurant</td>
+      <td>Food</td>
+      <td>Burger Joint</td>
+      <td>Steakhouse</td>
+      <td>Cafeteria</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>Karrana</td>
+      <td>28.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Asian Restaurant</td>
+      <td>Falafel Restaurant</td>
+      <td>Bakery</td>
+      <td>Coffee Shop</td>
+      <td>Cafeteria</td>
+      <td>Italian Restaurant</td>
+      <td>Fried Chicken Joint</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>Karzakan</td>
+      <td>4.0</td>
+      <td>Vegetarian / Vegan Restaurant</td>
+      <td>Turkish Restaurant</td>
+      <td>Restaurant</td>
+      <td>Shawarma Place</td>
+      <td>Afghan Restaurant</td>
+      <td>Kebab Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>Khamis</td>
+      <td>20.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Sandwich Place</td>
+      <td>Turkish Restaurant</td>
+      <td>Cafeteria</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Café</td>
+      <td>Restaurant</td>
+      <td>Tea Room</td>
+      <td>Italian Restaurant</td>
+      <td>Diner</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>Manama</td>
+      <td>45.0</td>
+      <td>Indian Restaurant</td>
+      <td>Filipino Restaurant</td>
+      <td>Asian Restaurant</td>
+      <td>Pizza Place</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+      <td>Cafeteria</td>
+      <td>BBQ Joint</td>
+      <td>Restaurant</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Muharraq</td>
+      <td>48.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Seafood Restaurant</td>
+      <td>Café</td>
+      <td>Cafeteria</td>
+      <td>Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Turkish Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Pizza Place</td>
+      <td>Burger Joint</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>Samaheej</td>
+      <td>3.0</td>
+      <td>Restaurant</td>
+      <td>Bakery</td>
+      <td>Afghan Restaurant</td>
+      <td>Korean Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>Sanad</td>
+      <td>38.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Sandwich Place</td>
+      <td>Pizza Place</td>
+      <td>Breakfast Spot</td>
+      <td>Cafeteria</td>
+      <td>Burger Joint</td>
+      <td>Café</td>
+      <td>Bakery</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>Sar</td>
+      <td>27.0</td>
+      <td>Pizza Place</td>
+      <td>Burger Joint</td>
+      <td>Gas Station</td>
+      <td>Chinese Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Breakfast Spot</td>
+      <td>Thai Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Fried Chicken Joint</td>
+      <td>Deli / Bodega</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>Shakhura</td>
+      <td>45.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Breakfast Spot</td>
+      <td>Café</td>
+      <td>Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Dessert Shop</td>
+      <td>Bakery</td>
+      <td>Pizza Place</td>
+      <td>Donut Shop</td>
+      <td>Ice Cream Shop</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>Tashan</td>
+      <td>25.0</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Restaurant</td>
+      <td>Turkish Restaurant</td>
+      <td>Seafood Restaurant</td>
+      <td>Cafeteria</td>
+      <td>Indian Restaurant</td>
+      <td>Italian Restaurant</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Diner</td>
+      <td>Dessert Shop</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>Tubli</td>
+      <td>34.0</td>
+      <td>Restaurant</td>
+      <td>Bakery</td>
+      <td>Burger Joint</td>
+      <td>Juice Bar</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+      <td>Turkish Restaurant</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Pie Shop</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>This cluster has 34 areas</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Cluster-2">Cluster 2<a class="anchor-link" href="#Cluster-2"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster2</span> <span class="o">=</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bh_merged</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">columns</span><span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]]</span>
+<span class="n">cluster2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>NumberOfFoodPlaces</th>
+      <th>1st Most Common Food Place</th>
+      <th>2nd Most Common Food Place</th>
+      <th>3rd Most Common Food Place</th>
+      <th>4th Most Common Food Place</th>
+      <th>5th Most Common Food Place</th>
+      <th>6th Most Common Food Place</th>
+      <th>7th Most Common Food Place</th>
+      <th>8th Most Common Food Place</th>
+      <th>9th Most Common Food Place</th>
+      <th>10th Most Common Food Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A'ali</td>
+      <td>19.0</td>
+      <td>Café</td>
+      <td>Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Cupcake Shop</td>
+      <td>Breakfast Spot</td>
+      <td>Food</td>
+      <td>Sandwich Place</td>
+      <td>Falafel Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Bakery</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Al Markh</td>
+      <td>17.0</td>
+      <td>Café</td>
+      <td>Fast Food Restaurant</td>
+      <td>Burger Joint</td>
+      <td>Ice Cream Shop</td>
+      <td>Juice Bar</td>
+      <td>Coffee Shop</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Dessert Shop</td>
+      <td>Bakery</td>
+      <td>BBQ Joint</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Al Musalla</td>
+      <td>17.0</td>
+      <td>Fast Food Restaurant</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Seafood Restaurant</td>
+      <td>Steakhouse</td>
+      <td>Food Court</td>
+      <td>Restaurant</td>
+      <td>Pizza Place</td>
+      <td>Japanese Restaurant</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Al Qadam</td>
+      <td>4.0</td>
+      <td>Pizza Place</td>
+      <td>Café</td>
+      <td>Cafeteria</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Al Qala</td>
+      <td>50.0</td>
+      <td>Café</td>
+      <td>Burger Joint</td>
+      <td>Restaurant</td>
+      <td>Dessert Shop</td>
+      <td>Coffee Shop</td>
+      <td>Sandwich Place</td>
+      <td>Bakery</td>
+      <td>Juice Bar</td>
+      <td>Ice Cream Shop</td>
+      <td>Pizza Place</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Al Qurayyah</td>
+      <td>11.0</td>
+      <td>Restaurant</td>
+      <td>Café</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Comfort Food Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Diner</td>
+      <td>Japanese Restaurant</td>
+      <td>Juice Bar</td>
+      <td>Pastry Shop</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Amwaj Islands</td>
+      <td>37.0</td>
+      <td>Café</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>American Restaurant</td>
+      <td>Indian Restaurant</td>
+      <td>Restaurant</td>
+      <td>Asian Restaurant</td>
+      <td>Pizza Place</td>
+      <td>Deli / Bodega</td>
+      <td>Diner</td>
+      <td>Portuguese Restaurant</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Askar</td>
+      <td>4.0</td>
+      <td>Cafeteria</td>
+      <td>Burger Joint</td>
+      <td>Café</td>
+      <td>Pie Shop</td>
+      <td>Pastry Shop</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Bahrain Bay</td>
+      <td>50.0</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+      <td>Indian Restaurant</td>
+      <td>Pizza Place</td>
+      <td>Steakhouse</td>
+      <td>Burger Joint</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Restaurant</td>
+      <td>Fried Chicken Joint</td>
+      <td>American Restaurant</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Bilad Al Qadeem</td>
+      <td>46.0</td>
+      <td>Café</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Breakfast Spot</td>
+      <td>Sandwich Place</td>
+      <td>Fast Food Restaurant</td>
+      <td>Pizza Place</td>
+      <td>Burger Joint</td>
+      <td>Restaurant</td>
+      <td>Bakery</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Diplomatic Area</td>
+      <td>50.0</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+      <td>American Restaurant</td>
+      <td>Fried Chicken Joint</td>
+      <td>Burger Joint</td>
+      <td>Restaurant</td>
+      <td>Food Court</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Indian Restaurant</td>
+      <td>French Restaurant</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Dumistan</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Bakery</td>
+      <td>Burger Joint</td>
+      <td>Indian Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Falafel Restaurant</td>
+      <td>Filipino Restaurant</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Eker</td>
+      <td>6.0</td>
+      <td>Diner</td>
+      <td>Snack Place</td>
+      <td>Creperie</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Café</td>
+      <td>Cafeteria</td>
+      <td>Pastry Shop</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Hamala</td>
+      <td>29.0</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+      <td>Burger Joint</td>
+      <td>Pizza Place</td>
+      <td>Restaurant</td>
+      <td>Sandwich Place</td>
+      <td>Italian Restaurant</td>
+      <td>Mexican Restaurant</td>
+      <td>Hot Dog Joint</td>
+      <td>Mediterranean Restaurant</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Isa Town</td>
+      <td>43.0</td>
+      <td>Café</td>
+      <td>Indian Restaurant</td>
+      <td>Restaurant</td>
+      <td>Pizza Place</td>
+      <td>Bakery</td>
+      <td>Cafeteria</td>
+      <td>Coffee Shop</td>
+      <td>Fast Food Restaurant</td>
+      <td>Theme Restaurant</td>
+      <td>Italian Restaurant</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Janabiyah</td>
+      <td>29.0</td>
+      <td>Coffee Shop</td>
+      <td>Café</td>
+      <td>Burger Joint</td>
+      <td>Pizza Place</td>
+      <td>Restaurant</td>
+      <td>Sandwich Place</td>
+      <td>Italian Restaurant</td>
+      <td>Mexican Restaurant</td>
+      <td>Hot Dog Joint</td>
+      <td>Mediterranean Restaurant</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>Jurdab</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Bakery</td>
+      <td>Burger Joint</td>
+      <td>Indian Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Falafel Restaurant</td>
+      <td>Filipino Restaurant</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>Karbabad</td>
+      <td>12.0</td>
+      <td>Café</td>
+      <td>Sandwich Place</td>
+      <td>Coffee Shop</td>
+      <td>Asian Restaurant</td>
+      <td>Bakery</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Burger Joint</td>
+      <td>Cafeteria</td>
+      <td>Afghan Restaurant</td>
+      <td>Mediterranean Restaurant</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>Mahazza</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Bakery</td>
+      <td>Burger Joint</td>
+      <td>Indian Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Falafel Restaurant</td>
+      <td>Filipino Restaurant</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>Marquban</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Bakery</td>
+      <td>Burger Joint</td>
+      <td>Indian Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Falafel Restaurant</td>
+      <td>Filipino Restaurant</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Muqaba</td>
+      <td>35.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Restaurant</td>
+      <td>Bakery</td>
+      <td>Breakfast Spot</td>
+      <td>Cafeteria</td>
+      <td>Fried Chicken Joint</td>
+      <td>Food Court</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Persian Restaurant</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Muqsha</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Bakery</td>
+      <td>Burger Joint</td>
+      <td>Indian Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Falafel Restaurant</td>
+      <td>Filipino Restaurant</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>Nuwaidrat</td>
+      <td>7.0</td>
+      <td>Café</td>
+      <td>Asian Restaurant</td>
+      <td>Restaurant</td>
+      <td>Bakery</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Falafel Restaurant</td>
+      <td>Afghan Restaurant</td>
+      <td>Mediterranean Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>Riffa</td>
+      <td>49.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Burger Joint</td>
+      <td>Restaurant</td>
+      <td>Bakery</td>
+      <td>Sandwich Place</td>
+      <td>Dessert Shop</td>
+      <td>Pizza Place</td>
+      <td>Italian Restaurant</td>
+      <td>Lebanese Restaurant</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>Reef Island</td>
+      <td>13.0</td>
+      <td>Café</td>
+      <td>American Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Restaurant</td>
+      <td>French Restaurant</td>
+      <td>Japanese Restaurant</td>
+      <td>Breakfast Spot</td>
+      <td>Dessert Shop</td>
+      <td>Lebanese Restaurant</td>
+      <td>Mediterranean Restaurant</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>Sakhir</td>
+      <td>8.0</td>
+      <td>Burger Joint</td>
+      <td>Diner</td>
+      <td>Food Truck</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Café</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>Salmabad</td>
+      <td>12.0</td>
+      <td>Café</td>
+      <td>Cupcake Shop</td>
+      <td>Bakery</td>
+      <td>Coffee Shop</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Breakfast Spot</td>
+      <td>Juice Bar</td>
+      <td>Food</td>
+      <td>Asian Restaurant</td>
+      <td>Japanese Restaurant</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>Sehla</td>
+      <td>6.0</td>
+      <td>Burger Joint</td>
+      <td>Café</td>
+      <td>American Restaurant</td>
+      <td>Ice Cream Shop</td>
+      <td>Bakery</td>
+      <td>Food Court</td>
+      <td>Pastry Shop</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>Zallaq</td>
+      <td>29.0</td>
+      <td>Café</td>
+      <td>Coffee Shop</td>
+      <td>Restaurant</td>
+      <td>Juice Bar</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Creperie</td>
+      <td>Cafeteria</td>
+      <td>Burrito Place</td>
+      <td>Burger Joint</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>This cluster has 29 areas</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Cluster-3">Cluster 3<a class="anchor-link" href="#Cluster-3"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster3</span> <span class="o">=</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bh_merged</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">columns</span><span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]]</span>
+<span class="n">cluster3</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>NumberOfFoodPlaces</th>
+      <th>1st Most Common Food Place</th>
+      <th>2nd Most Common Food Place</th>
+      <th>3rd Most Common Food Place</th>
+      <th>4th Most Common Food Place</th>
+      <th>5th Most Common Food Place</th>
+      <th>6th Most Common Food Place</th>
+      <th>7th Most Common Food Place</th>
+      <th>8th Most Common Food Place</th>
+      <th>9th Most Common Food Place</th>
+      <th>10th Most Common Food Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25</th>
+      <td>Al Dair</td>
+      <td>9.0</td>
+      <td>Bakery</td>
+      <td>Restaurant</td>
+      <td>BBQ Joint</td>
+      <td>Italian Restaurant</td>
+      <td>Fast Food Restaurant</td>
+      <td>Afghan Restaurant</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Jannusan</td>
+      <td>11.0</td>
+      <td>Bakery</td>
+      <td>Gastropub</td>
+      <td>Cafeteria</td>
+      <td>Indian Restaurant</td>
+      <td>Sandwich Place</td>
+      <td>Fish &amp; Chips Shop</td>
+      <td>Seafood Restaurant</td>
+      <td>Snack Place</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Jaww</td>
+      <td>1.0</td>
+      <td>Bakery</td>
+      <td>Afghan Restaurant</td>
+      <td>Korean Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+      <td>Mediterranean Restaurant</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>Ma'ameer</td>
+      <td>3.0</td>
+      <td>Creperie</td>
+      <td>Diner</td>
+      <td>Bakery</td>
+      <td>Afghan Restaurant</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>Sitra</td>
+      <td>2.0</td>
+      <td>Turkish Restaurant</td>
+      <td>Bakery</td>
+      <td>Afghan Restaurant</td>
+      <td>Korean Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>This cluster has 5 areas</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Cluster-4">Cluster 4<a class="anchor-link" href="#Cluster-4"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster4</span> <span class="o">=</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bh_merged</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">columns</span><span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]]</span>
+<span class="n">cluster4</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>NumberOfFoodPlaces</th>
+      <th>1st Most Common Food Place</th>
+      <th>2nd Most Common Food Place</th>
+      <th>3rd Most Common Food Place</th>
+      <th>4th Most Common Food Place</th>
+      <th>5th Most Common Food Place</th>
+      <th>6th Most Common Food Place</th>
+      <th>7th Most Common Food Place</th>
+      <th>8th Most Common Food Place</th>
+      <th>9th Most Common Food Place</th>
+      <th>10th Most Common Food Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>14</th>
+      <td>Awali</td>
+      <td>1.0</td>
+      <td>Café</td>
+      <td>Afghan Restaurant</td>
+      <td>Persian Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+      <td>Mediterranean Restaurant</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>This cluster has 1 area</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Cluster-5">Cluster 5<a class="anchor-link" href="#Cluster-5"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster5</span> <span class="o">=</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bh_merged</span><span class="p">[</span><span class="s1">&#39;Cluster Labels&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">columns</span><span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">bh_merged</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]]</span>
+<span class="n">cluster5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Area</th>
+      <th>NumberOfFoodPlaces</th>
+      <th>1st Most Common Food Place</th>
+      <th>2nd Most Common Food Place</th>
+      <th>3rd Most Common Food Place</th>
+      <th>4th Most Common Food Place</th>
+      <th>5th Most Common Food Place</th>
+      <th>6th Most Common Food Place</th>
+      <th>7th Most Common Food Place</th>
+      <th>8th Most Common Food Place</th>
+      <th>9th Most Common Food Place</th>
+      <th>10th Most Common Food Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>26</th>
+      <td>Dar Kulaib</td>
+      <td>4.0</td>
+      <td>Restaurant</td>
+      <td>Coffee Shop</td>
+      <td>Sandwich Place</td>
+      <td>Breakfast Spot</td>
+      <td>Afghan Restaurant</td>
+      <td>Lebanese Restaurant</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>Malkiya</td>
+      <td>2.0</td>
+      <td>Ice Cream Shop</td>
+      <td>Coffee Shop</td>
+      <td>Afghan Restaurant</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>Sufala</td>
+      <td>3.0</td>
+      <td>Coffee Shop</td>
+      <td>Restaurant</td>
+      <td>Afghan Restaurant</td>
+      <td>Lebanese Restaurant</td>
+      <td>Noodle House</td>
+      <td>New American Restaurant</td>
+      <td>Movie Theater</td>
+      <td>Moroccan Restaurant</td>
+      <td>Middle Eastern Restaurant</td>
+      <td>Mexican Restaurant</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+<p>This cluster has 3 areas</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h3><p>Phew! We're done with finding our clusters, and finding out which areas fall into it.
+To understand the constraints and my discussion to conclude this solution, please refer to my report available on my <a href="https://github.com/isados/neighborhood-clusters/blob/main/report.md">github repo</a>.</p>
+<p>I hope you've enjoyed reading &amp; learning something new from this post. Doing this was part of my data-science course, and I hope you can do the same with your hobby projects.</p>
+<p>Until next time, cheers!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="isados/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/ml/sklearn/bahrain-area-segmentation.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My insights into Life and AI.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/isados" title="isados"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/isadoseri" title="isadoseri"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
